@@ -28,9 +28,9 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Override
     public Schedule updateSchedule(Schedule schedule) {
-        scheduleRepository.updateStatus(schedule.getScheduleNum(), 4);
+        scheduleRepository.updateStatus(schedule.getScheduleNum(), 5);
         System.out.println("평가 작성 : 일정 상태 변경(평가작성 완료)");
-        schedule.setStatus(4);
+        schedule.setStatus(5);
         return schedule;
     }
 

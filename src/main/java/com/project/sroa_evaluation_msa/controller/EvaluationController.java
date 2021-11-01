@@ -16,8 +16,8 @@ import java.util.List;
 @Controller
 @ResponseBody
 public class EvaluationController {
-    //애플리케이션과의 통신은 요청이 들어오고 응답을 보내면 연결이 끊기기 떄문에
-    //return data를 하면 data를 어플리케이션에 보냄
+    // status : 0-> 예약완료 , 1 -> 처리 완료, 2 -> 수령, 3 -> 수리 완료, 4 -> 반납예약완료, 5-> 평가 완료
+
     EvaluationService evaluationService;
 
     @Autowired
