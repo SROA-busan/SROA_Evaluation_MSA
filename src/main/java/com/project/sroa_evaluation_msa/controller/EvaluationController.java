@@ -1,9 +1,11 @@
 package com.project.sroa_evaluation_msa.controller;
 
+import com.project.sroa_evaluation_msa.dto.ResponseEngineerEvaluation;
 import com.project.sroa_evaluation_msa.dto.WriteEvaluation;
 import com.project.sroa_evaluation_msa.model.Evaluation;
 import com.project.sroa_evaluation_msa.model.Schedule;
 import com.project.sroa_evaluation_msa.service.EvaluationService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,8 +44,18 @@ public class EvaluationController {
         return evaluationService.storeEvaluation(evaluation);
     }
 
-    @GetMapping("/evaluation/engineer/askEvaluation/{engineerNum}")
-    public List<Evaluation> askEvaluation(@PathVariable(value = "engineerNum") Long engineerNum) {
-        return evaluationService.evaluationOfEngineer(engineerNum);
+    @GetMapping("/evaluation/engineer/inqueryEvaluation/{engineerNum}")
+    public List<ResponseEngineerEvaluation> askEvaluation(@PathVariable(value = "engineerNum") Long engineerNum) {
+        List<Evaluation> list =  evaluationService.evaluationOfEngineer(engineerNum);
+        List<ResponseEngineerEvaluation> res = new ArrayList<>();
+        for(Evaluation evaluation: list){
+
+            res.add(new ResponseEngineerEvaluation(
+                    evaluation.getSchedule().getProduct().getClassifyName(),
+                    evaluation.getContent(),
+                    evaluation.getScore(),
+                    evaluation.getWriteDate().toString().substring(0,16)));
+        }
+        return res;
     }
 }

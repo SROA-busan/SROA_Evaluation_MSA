@@ -1,6 +1,7 @@
 package com.project.sroa_evaluation_msa.model;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class Product {
     @Id
