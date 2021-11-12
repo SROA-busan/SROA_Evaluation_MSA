@@ -4,13 +4,13 @@ import lombok.Getter;
 
 @Getter
 public class ResponseEngineerEvaluation {
-    private String classfyName;
+    private String classifyName;
     private String content;
     private Integer score;
     private String writeDate;
 
-    public ResponseEngineerEvaluation(String classfyName, String content, Integer score, String writeDate) {
-        this.classfyName = classfyName;
+    public ResponseEngineerEvaluation(String classifyName, String content, Integer score, String writeDate) {
+        this.classifyName = classifyName;
         this.content = content;
         this.score = score;
         this.writeDate = writeDate;

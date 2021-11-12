@@ -19,4 +19,6 @@ public interface EngineerInfoRepository extends JpaRepository<EngineerInfo, Long
     void updateEngineerScore(long engineerNum, Integer avgScore);
 
 
+    @Query(nativeQuery = true, value = "SELECT e.* FROM engineer_info e WHERE e.user_num=?1 ")
+    EngineerInfo findByUserNum(Long userNum);
 }

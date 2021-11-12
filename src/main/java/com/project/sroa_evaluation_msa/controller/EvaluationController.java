@@ -2,8 +2,10 @@ package com.project.sroa_evaluation_msa.controller;
 
 import com.project.sroa_evaluation_msa.dto.ResponseEngineerEvaluation;
 import com.project.sroa_evaluation_msa.dto.WriteEvaluation;
+import com.project.sroa_evaluation_msa.model.EngineerInfo;
 import com.project.sroa_evaluation_msa.model.Evaluation;
 import com.project.sroa_evaluation_msa.model.Schedule;
+import com.project.sroa_evaluation_msa.model.UserInfo;
 import com.project.sroa_evaluation_msa.service.EvaluationService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +36,9 @@ public class EvaluationController {
         Schedule schedule = evaluationService.updateChargeEmployeeScore(form.getScheduleNum(), form.getScore());
         schedule = evaluationService.updateSchedule(schedule);
 
+
         Evaluation evaluation = Evaluation.builder()
-                .writeDate(Timestamp.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))))
+                .writeDate(Timestamp.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
                 .content(form.getContent())
                 .score(form.getScore())
                 .schedule(schedule)
@@ -44,9 +47,12 @@ public class EvaluationController {
         return evaluationService.storeEvaluation(evaluation);
     }
 
-    @GetMapping("/evaluation/engineer/inqueryEvaluation/{engineerNum}")
-    public List<ResponseEngineerEvaluation> askEvaluation(@PathVariable(value = "engineerNum") Long engineerNum) {
-        List<Evaluation> list =  evaluationService.evaluationOfEngineer(engineerNum);
+    @GetMapping("/evaluation/engineer/inqueryEvaluation/{id}")
+    public List<ResponseEngineerEvaluation> askEvaluation(@PathVariable("id") String id) {
+        UserInfo user= evaluationService.findUserById(id);
+        EngineerInfo engineerInfo= evaluationService.findEngineerByUserNum(user.getUserNum());
+        List<Evaluation> list =  evaluationService.evaluationOfEngineer(engineerInfo.getEngineerNum());
+
         List<ResponseEngineerEvaluation> res = new ArrayList<>();
         for(Evaluation evaluation: list){
 

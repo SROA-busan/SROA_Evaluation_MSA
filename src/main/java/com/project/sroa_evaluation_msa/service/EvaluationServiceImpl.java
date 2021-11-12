@@ -3,9 +3,11 @@ package com.project.sroa_evaluation_msa.service;
 import com.project.sroa_evaluation_msa.model.EngineerInfo;
 import com.project.sroa_evaluation_msa.model.Evaluation;
 import com.project.sroa_evaluation_msa.model.Schedule;
+import com.project.sroa_evaluation_msa.model.UserInfo;
 import com.project.sroa_evaluation_msa.repository.EngineerInfoRepository;
 import com.project.sroa_evaluation_msa.repository.EvaluationRepository;
 import com.project.sroa_evaluation_msa.repository.ScheduleRepository;
+import com.project.sroa_evaluation_msa.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +18,27 @@ public class EvaluationServiceImpl implements EvaluationService {
     ScheduleRepository scheduleRepository;
     EvaluationRepository evaluationRepository;
     EngineerInfoRepository engineerInfoRepository;
+    UserInfoRepository userInfoRepository;
 
     @Autowired
     public EvaluationServiceImpl(ScheduleRepository scheduleRepository,
                                  EvaluationRepository evaluationRepository,
-                                 EngineerInfoRepository engineerInfoRepository) {
+                                 EngineerInfoRepository engineerInfoRepository,
+                                 UserInfoRepository userInfoRepository) {
         this.scheduleRepository = scheduleRepository;
         this.evaluationRepository = evaluationRepository;
         this.engineerInfoRepository = engineerInfoRepository;
+        this.userInfoRepository=userInfoRepository;
+    }
+
+    @Override
+    public UserInfo findUserById(String id) {
+        return userInfoRepository.findById(id);
+    }
+
+    @Override
+    public EngineerInfo findEngineerByUserNum(Long userNum) {
+        return engineerInfoRepository.findByUserNum(userNum);
     }
 
     @Override
@@ -42,6 +57,7 @@ public class EvaluationServiceImpl implements EvaluationService {
         List<Evaluation> list = evaluationRepository.findAllByEngineerNum(schedule.getEngineerInfo().getEngineerNum());
 
         for (Evaluation e : list) {
+
             totalScore += e.getScore();
         }
 
