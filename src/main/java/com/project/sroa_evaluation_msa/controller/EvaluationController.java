@@ -30,6 +30,12 @@ public class EvaluationController {
         this.evaluationService = evaluationService;
     }
 
+    @GetMapping("/evaluation/healthCheck")
+    public boolean healthCheck(){
+        return true;
+    }
+
+
     @PostMapping("/evaluation/customer/writeEvaluation")
     public boolean writeEvaluation(@RequestBody WriteEvaluation form) {
 
@@ -38,7 +44,7 @@ public class EvaluationController {
 
 
         Evaluation evaluation = Evaluation.builder()
-                .writeDate(Timestamp.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
+                .writeDate(Timestamp.valueOf(LocalDateTime.now().plusHours(9).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))))
                 .content(form.getContent())
                 .score(form.getScore())
                 .schedule(schedule)
